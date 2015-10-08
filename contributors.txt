@@ -1,1 +1,7 @@
-Nelson Ramírez
+Este modódulo agrega la opción de utilizar la cuenta analítica del contrato de los trabajadores. 
+Odoo por defecto utiliza la cuenta analítica de la regla salarial. 
+
+El problema es que quisiera reemplazar la función process del padre por lo nueva del hijo. Este módulo no lo hace, sino que contabiliza dos veces, es 
+decir que hace el process dos veces.
+
+
