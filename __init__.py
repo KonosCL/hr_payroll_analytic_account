@@ -19,7 +19,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from . l10n_cl_hr_payroll_account
+import hr_payroll_analytic_account
  
 
 

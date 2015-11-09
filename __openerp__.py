@@ -20,22 +20,13 @@
 ##############################################################################
 
 {
-    'name': 'Payroll Chilean Accounting',
+    'name': 'Payroll Analytic Accounting',
     'version': '1.0',
     'category': 'Accounting',
-    'author': 'Blanco Martin & Asociados - Nelson RamÃ­rez SÃ¡nchez, Daniel Blanco',
-    'description': """
-Generic Payroll system Integrated with Chilean Accounting.
-==================================================
-
-    * Analytic Accounting
-
-    """,
+    'author': 'Blanco Martin & Asociados - Nelson Ramírez Sánchez',
     'website': 'http://blancomartin.cl',
-    'depends': [
-        'hr_payroll_account','account_analytic_analysis'
-    ],
-    'data': ['l10n_cl_hr_payroll_account_view.xml'],
+    'depends': ['hr_payroll_account','account_analytic_analysis'],
+    'data': ['hr_payroll_analytic_account_view.xml'],
     'installable': True,
     'auto_install': False,
 }
