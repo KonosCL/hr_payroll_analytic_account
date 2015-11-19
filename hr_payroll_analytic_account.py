@@ -33,50 +33,6 @@ class hr_payslip(osv.osv):
     _inherit = 'hr.payslip'
     _description = 'Pay Slip'
 
-    _columns = {
-        'period_id': fields.many2one('account.period', 'Force Period',states={'draft': [('readonly', False)]}, readonly=True, domain=[('state','<>','done')], help="Keep empty to use the period of the validation(Payslip) date."),
-        'journal_id': fields.many2one('account.journal', 'Salary Journal',states={'draft': [('readonly', False)]}, readonly=True, required=True),
-        'move_id': fields.many2one('account.move', 'Accounting Entry', readonly=True, copy=False),
-        
-    }
-
-    def _get_default_journal(self, cr, uid, context=None):
-        model_data = self.pool.get('ir.model.data')
-        res = model_data.search(cr, uid, [('name', '=', 'expenses_journal')])
-        if res:
-            return model_data.browse(cr, uid, res[0]).res_id
-        return False
-
-    _defaults = {
-        'journal_id': _get_default_journal,
-    }
-
-    def create(self, cr, uid, vals, context=None):
-        if context is None:
-            context = {}
-        if 'journal_id' in context:
-            vals.update({'journal_id': context.get('journal_id')})
-        return super(hr_payslip, self).create(cr, uid, vals, context=context)
-
-    def onchange_contract_id(self, cr, uid, ids, date_from, date_to, employee_id=False, contract_id=False, context=None):
-        contract_obj = self.pool.get('hr.contract')
-        res = super(hr_payslip, self).onchange_contract_id(cr, uid, ids, date_from=date_from, date_to=date_to, employee_id=employee_id, contract_id=contract_id, context=context)
-        journal_id = contract_id and contract_obj.browse(cr, uid, contract_id, context=context).journal_id.id or False
-        res['value'].update({'journal_id': journal_id})
-        return res
-
-    def cancel_sheet(self, cr, uid, ids, context=None):
-        move_pool = self.pool.get('account.move')
-        move_ids = []
-        move_to_cancel = []
-        for slip in self.browse(cr, uid, ids, context=context):
-            if slip.move_id:
-                move_ids.append(slip.move_id.id)
-                if slip.move_id.state == 'posted':
-                    move_to_cancel.append(slip.move_id.id)
-        move_pool.button_cancel(cr, uid, move_to_cancel, context=context)
-        move_pool.unlink(cr, uid, move_ids, context=context)
-        return super(hr_payslip, self).cancel_sheet(cr, uid, ids, context=context)
 
     def process_sheet(self, cr, uid, ids, context=None):
         move_pool = self.pool.get('account.move')
@@ -192,16 +148,12 @@ class hr_payslip(osv.osv):
             self.write(cr, uid, [slip.id], {'move_id': move_id, 'period_id' : period_id}, context=context)
             if slip.journal_id.entry_posted:
                 move_pool.post(cr, uid, [move_id], context=context)
-        return super(hr_payslip, self).process_sheet(cr, uid, [slip.id], context=context)
+        hr_payslip()
 
 
 class hr_salary_rule(osv.osv):
     _inherit = 'hr.salary.rule'
     _columns = {
-        'analytic_account_id':fields.many2one('account.analytic.account', 'Analytic Account'),
-        'account_tax_id':fields.many2one('account.tax.code', 'Tax Code'),
-        'account_debit': fields.many2one('account.account', 'Debit Account'),
-        'account_credit': fields.many2one('account.account', 'Credit Account'),
 	'account_analytic_true': fields.boolean('Usar Centro de Costo de Contrato'),
 
         
@@ -213,27 +165,8 @@ class hr_contract(osv.osv):
     _description = 'Employee Contract'
     _columns = {
         'analytic_account_id':fields.many2one('account.analytic.account', 'Analytic Account'),
-        'journal_id': fields.many2one('account.journal', 'Salary Journal'),
     }
 
-class hr_payslip_run(osv.osv):
-
-    _inherit = 'hr.payslip.run'
-    _description = 'Payslip Run'
-    _columns = {
-        'journal_id': fields.many2one('account.journal', 'Salary Journal', states={'draft': [('readonly', False)]}, readonly=True, required=True),
-    }
-
-    def _get_default_journal(self, cr, uid, context=None):
-        model_data = self.pool.get('ir.model.data')
-        res = model_data.search(cr, uid, [('name', '=', 'expenses_journal')])
-        if res:
-            return model_data.browse(cr, uid, res[0]).res_id
-        return False
-
-    _defaults = {
-        'journal_id': _get_default_journal,
-    }
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
