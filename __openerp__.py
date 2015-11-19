@@ -22,6 +22,13 @@
 {
     'name': 'Payroll Analytic Accounting',
     'version': '1.0',
+    'description': """
+Payroll Analytic Accounting.
+============================
+
+    -This module lets you choose the analytic account in the employee contract for a specific salary rule. 
+    
+    """,
     'category': 'Accounting',
     'author': 'Blanco Martin & Asociados - Nelson Ramírez Sánchez',
     'website': 'http://blancomartin.cl',

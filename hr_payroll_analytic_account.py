@@ -154,7 +154,7 @@ class hr_payslip(osv.osv):
 class hr_salary_rule(osv.osv):
     _inherit = 'hr.salary.rule'
     _columns = {
-	'account_analytic_true': fields.boolean('Usar Centro de Costo de Contrato'),
+	'account_analytic_true': fields.boolean('Analytic Account in Employees Contract'),
 
         
     }
