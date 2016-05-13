@@ -18,7 +18,6 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
 {
     'name': 'Payroll Analytic Accounting',
     'version': '1.0',
@@ -29,11 +28,16 @@ Payroll Analytic Accounting.
     -This module lets you choose the analytic account in the employee contract for a specific salary rule. 
     
     """,
+    'license': 'AGPL-3',
     'category': 'Accounting',
-    'author': 'Blanco Martin & Asociados - Nelson RamÌrez S·nchez',
+    'author': 'Blanco Mart√≠n & Asociados - Nelson Ram√≠rez S√°nchez',
     'website': 'http://blancomartin.cl',
-    'depends': ['hr_payroll_account','account_analytic_analysis'],
-    'data': ['hr_payroll_analytic_account_view.xml'],
+    'depends': [
+        'hr_payroll_account','account_analytic_analysis'
+    ],
+    'data': [
+        'hr_payroll_analytic_account_view.xml'
+    ],
     'installable': True,
     'auto_install': False,
 }
