@@ -37,9 +37,11 @@ Payroll Analytic Accounting.
     ],
     'data': [
         'views/hr_payroll_analytic_account_view.xml',
-        'data/hr_payroll_analytic_account_data.xml',
-
     ],
+    'demo': [
+        'demo/hr_payroll_analytic_account_demo.xml',
+
+    ],    
     'installable': True,
     'auto_install': False,
 }
